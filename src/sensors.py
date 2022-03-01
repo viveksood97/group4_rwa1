@@ -4,6 +4,7 @@ import rospy
 from nist_gear.msg import Proximity, LogicalCameraImage
 from sensor_msgs.msg import PointCloud , LaserScan, Range
 from ariac_utilities import Ariac
+from agv import AGV
 
 class Sensors:
     def logical_camera_bins0_callback(self, data):
@@ -62,10 +63,12 @@ if __name__ == '__main__':
         rospy.init_node('sensors', anonymous=True)
         ariac = Ariac()
         sensors = Sensors()
-
+        agv =AGV()
         # Start competition
         ariac.start()
         sensors.create_sensor_subscribers()
+        agv.create_state_subscriber()
+        agv.create_station_subscriber()
         
 
         # rospy.Subscriber("/ariac/logical_camera_bins0", LogicalCameraImage , callback)
