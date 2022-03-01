@@ -14,6 +14,9 @@ class Orders:                                       #do we only get one order?
         agv_id = kitting_orders.agv_id
         station_id = kitting_orders.station_id
         return shipment_type, agv_id, station_id
+    
+    def assembly(self):
+        pass
 
 class Ariac:
     def start(self):
