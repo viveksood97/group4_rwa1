@@ -193,14 +193,14 @@ if __name__ == '__main__':
         sensors = Sensors()
         agv =AGV()
         # Start competition
-        ariac.start()
-        sensors.create_sensor_subscribers()
-        agv.create_state_subscriber()
-        agv.create_station_subscriber()
-        
+        if(ariac.status):
+            sensors.create_sensor_subscribers()
+            agv.create_state_subscriber()
+            agv.create_station_subscriber()
+            
 
-        # rospy.Subscriber("/ariac/logical_camera_bins0", LogicalCameraImage , callback)
-        rospy.spin()
+            # rospy.Subscriber("/ariac/logical_camera_bins0", LogicalCameraImage , callback)
+            rospy.spin()
 
     except rospy.ROSInterruptException:
         pass

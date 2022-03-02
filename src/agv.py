@@ -108,17 +108,19 @@ def submit_shipment(name, agv, station_id):
 
 if __name__ == '__main__':
     try:
+
         rospy.init_node('agv', anonymous=True)
         ariac = Ariac()
-        rospy.sleep(50)
-        order = Orders()
-        submit_shipment(*order.kitting())
-        rospy.sleep(5)
-        ariac.end()
-        rospy.sleep(5)
-        rospy.logwarn("All task completed: ROS Shutting down in 10 seconds")
-        rospy.sleep(10)
-        rospy.signal_shutdown("Task Completed")
+        if(ariac.status()):
+            rospy.sleep(50)
+            order = Orders()
+            submit_shipment(*order.kitting())
+            rospy.sleep(5)
+            ariac.end()
+            rospy.sleep(5)
+            rospy.logwarn("All task completed: ROS Shutting down in 10 seconds")
+            rospy.sleep(10)
+            rospy.signal_shutdown("Task Completed")
         
     except rospy.ROSInterruptException:
         pass

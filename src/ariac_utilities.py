@@ -2,6 +2,7 @@
 import rospy
 from std_srvs.srv import Trigger
 from nist_gear.msg import Order
+from std_msgs.msg import String
 
 
 class Orders:
@@ -41,6 +42,8 @@ class Orders:
         agv_id = kitting_orders.agv_id
         station_id = kitting_orders.station_id
         return shipment_type, agv_id, station_id
+    def Assembly(self):
+        pass
 
 
 class Ariac:
@@ -100,5 +103,22 @@ class Ariac:
             rospy.logerr("Failed to end the competition: " + resp.message);
         else:
             rospy.loginfo("Competition ended!")
+    
+    def status(self):
+        competition_status = rospy.wait_for_message("/ariac/competition_state", String, timeout=None).data
+        print(competition_status)
+        if(competition_status == "init"):
+            self.start()
+            return True
+        elif(competition_status == "go"):
+            return True
+        elif(competition_status == "done"):
+            rospy.loginfo("Competition has ended")
+            return False
+
+        
+        
+        
+
     
     
