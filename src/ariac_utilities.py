@@ -3,23 +3,65 @@ import rospy
 from std_srvs.srv import Trigger
 from nist_gear.msg import Order
 
-class Orders:                                       #do we only get one order?
+
+class Orders:
+    """
+    A class to represent orders.
+    Order is an instruction containing kits or assembly products for the robot system to complete
+
+    ...
+
+    Methods
+    -------
+    start():
+    starts the ariac contest.
+    end():
+    ends the ariac contest
+    """
+
     def __init__(self):
+        """
+        Init function assigns initial values to order and assembly orders
+        """
         self.order = rospy.wait_for_message('/ariac/orders', Order)
         self.assembly_orders = self.order.assembly_shipments
     
     def kitting(self):
+        """
+        Here the kitting action takes place. The parts are collected and placed on Agv tray.
+
+        Returns
+        -------
+        shipment_type: Stores type of shipment
+        agv_id: stores agv id
+        station_id: stores station id
+        """
         kitting_orders = self.order.kitting_shipments[0] #will we get kitting and assembly both in orders?
         shipment_type = kitting_orders.shipment_type  #what does shipment submission mean?
         agv_id = kitting_orders.agv_id
         station_id = kitting_orders.station_id
         return shipment_type, agv_id, station_id
-    
-    def assembly(self):
-        pass
+
 
 class Ariac:
+    """
+    A class to start and stop competition.
+
+    Methods
+    -------
+    start():
+    starts the ariac contest.
+    end():
+    ends the ariac contest
+    """
     def start(self):
+        """
+        The ARIAC contest is started by triggering the service /ariac/start_competition.
+
+        Returns
+        -------
+        None
+        """
         # Wait for service to be active
         rospy.loginfo("Waiting for the competition to be ready...")
         rospy.wait_for_service('/ariac/start_competition')
@@ -37,6 +79,13 @@ class Ariac:
             rospy.loginfo("Competition started!")
     
     def end(self):
+        """
+        The ARIAC contest is ended by triggering the service /ariac/stop_competition.
+
+        Returns
+        -------
+        None
+        """
         # Wait for service to be active
         rospy.wait_for_service('/ariac/end_competition')
         end_service = rospy.ServiceProxy('/ariac/end_competition', Trigger)
@@ -47,7 +96,7 @@ class Ariac:
         # Call start
         resp = end_service()
         # Check if successful
-        if (resp.success != True):
+        if not resp.success:
             rospy.logerr("Failed to end the competition: " + resp.message);
         else:
             rospy.loginfo("Competition ended!")
