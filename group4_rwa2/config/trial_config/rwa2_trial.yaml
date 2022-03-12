@@ -1,0 +1,214 @@
+#Number of orders: 2
+#Tasks: kiting and assenbly
+#Number of shipments: 2
+#Insufficiently many products: Yes
+#Part re-orientation: No
+#In-process order update: Yes
+#Dropped products: No
+#In-process order interruption: No
+#Faulty products: Yes
+#Sensor blackout: Yes
+#Time limit: No
+
+options:
+  insert_models_over_bins: true
+  belt_population_cycles: 15
+  insert_models_over_stations: true
+  gazebo_state_logging: true
+time_limit: 500
+
+agv_infos:
+  agv1:
+    location: ks1
+    products:
+      part_0:
+        type: assembly_regulator_green
+        pose:
+          xyz: [0.1, 0.1, 0.0]
+          rpy: [0, 0, 0]
+  agv2:
+    location: ks2
+    products:
+      part_0:
+        type: assembly_regulator_green
+        pose:
+          xyz: [0.1, 0.1, 0]
+          rpy: [0, 0, 0]     
+  agv3:
+    location: ks3
+    products:
+      part_0:
+        type: assembly_pump_green
+        pose:
+          xyz: [0.1, 0.1, 0]
+          rpy: [0, 0, 0]
+  agv4:
+    location: ks4 
+    products:
+      part_0:
+        type: assembly_battery_red
+        pose:
+          xyz: [0.1, 0.1, 0]
+          rpy: [0, 0, 0]   
+
+# In-process Order Change Challenge
+orders:
+  order_0:
+    priority: 1
+    kitting_robot_health: 1 
+    assembly_robot_health: 1 
+    announcement_condition: time
+    announcement_condition_value: 0.0
+    kitting:
+      shipment_count: 1
+      agvs: [agv1]
+      destinations: [as2]
+      products:
+        part_0:
+          type: assembly_pump_red
+          pose:
+            xyz: [0.1, 0.1, 0]
+            rpy: [0, 0, '-pi/2']    # Flipped Part Challenge
+        part_1:
+          type: assembly_pump_red
+          pose:
+            xyz: [-0.1, -0.1, 0]
+            rpy: [0, 0, 0]
+  order_1:
+    priority: 2
+    kitting_robot_health: 1 
+    assembly_robot_health: 1 
+    announcement_condition: product_count
+    announcement_condition_value: 1.0
+    kitting:
+      shipment_count: 1
+      agvs: [agv3]
+      destinations: [as3]
+      products:
+        part_0:
+          type: assembly_battery_blue
+          pose:
+            xyz: [0.1, 0.1, 0]
+            rpy: [0, 0, 0]
+        part_1:
+          type: assembly_sensor_green
+          pose:
+            xyz: [-0.1, -0.1, 0]
+            rpy: [0, 0, 0]
+
+models_over_bins:
+   bin1:
+     models:
+       assembly_battery_blue:
+         xyz_start: [0.2, 0.2, 0.0]
+         xyz_end: [0.4, 0.4, 0.0]
+         rpy: [0, 0, 0]
+         num_models_x: 0
+         num_models_y: 0
+   bin2:
+     models:
+       assembly_battery_green:
+         xyz_start: [0.2, 0.2, 0.0]
+         xyz_end: [0.4, 0.4, 0.0]
+         rpy: [0, 0, 0]
+         num_models_x: 0
+         num_models_y: 0
+   bin3:
+     models:
+       assembly_battery_red:
+         xyz_start: [0.2, 0.2, 0.0]
+         xyz_end: [0.4, 0.4, 0.0]
+         rpy: [0, 0, 0]
+         num_models_x: 0
+         num_models_y: 0
+   bin4:
+     models:
+       assembly_sensor_blue:
+         xyz_start: [0.2, 0.2, 0.0]
+         xyz_end: [0.4, 0.4, 0.0]
+         rpy: [0, 0, 0]
+         num_models_x: 0
+         num_models_y: 0
+   bin5:
+     models:
+       assembly_sensor_blue:
+         xyz_start: [0.2, 0.2, 0.0]
+         xyz_end: [0.4, 0.4, 0.0]
+         rpy: [0, 0, 0]
+         num_models_x: 0
+         num_models_y: 0
+   bin6:
+     models:
+       assembly_sensor_green:
+         xyz_start: [0.2, 0.2, 0.0]
+         xyz_end: [0.4, 0.4, 0.0]
+         rpy: [0, 0, 0]
+         num_models_x: 0
+         num_models_y: 0
+   bin7:
+     models:
+       assembly_sensor_red:
+         xyz_start: [0.2, 0.2, 0.0]
+         xyz_end: [0.4, 0.4, 0.0]
+         rpy: [0, 0, 0]
+         num_models_x: 0
+         num_models_y: 0
+   bin8:
+     models:
+       assembly_regulator_blue:
+         xyz_start: [0.1, 0.2, 0.0]
+         xyz_end: [0.4, 0.5, 0.0]
+         rpy: [0, 0, 'pi/4']
+         num_models_x: 0
+         num_models_y: 0
+
+belt_models:
+  assembly_pump_red:
+    10.0:
+      pose:
+        xyz: [0.0, 4.3, 0.92]
+        rpy: [0, 0, 0]
+
+models_over_stations:
+  as1:
+    models:
+      assembly_battery_blue:
+        xyz: [-0.032465, 0.174845, 0.15]
+        rpy: [0, 0, 'pi']
+      assembly_pump_blue:
+        xyz: [0.032085, -0.152835, 0.15]
+        rpy: [0, 0, 0]
+  as2:
+    models:
+      assembly_battery_blue:
+        xyz: [-0.032465, 0.174845, 0.15]
+        rpy: [0, 0, 'pi']
+      assembly_pump_blue:
+        xyz: [0.032085, -0.152835, 0.15]
+        rpy: [0, 0, 0]
+  as3:
+    models:
+      assembly_battery_blue:
+        xyz: [-0.032465, 0.174845, 0.15]
+        rpy: [0, 0, 'pi']
+      assembly_pump_blue:
+        xyz: [0.032085, -0.152835, 0.15]
+        rpy: [0, 0, 0]
+  as4:
+    models:
+      assembly_battery_blue:
+        xyz: [-0.032465, 0.174845, 0.15]
+        rpy: [0, 0, 'pi']
+      assembly_pump_blue:
+        xyz: [0.032085, -0.152835, 0.15]
+        rpy: [0, 0, 0]
+
+# Faulty Part Challenge
+faulty_products:
+  - assembly_battery_blue_5
+
+#Sensor blackout Challenge
+sensor_blackout:
+  product_count: 2
+  duration: 10
+

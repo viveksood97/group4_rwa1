@@ -1,0 +1,18 @@
+ENPM663 - RWA1 - Group 4
+------------------------
+
+Steps to build--
+cd ~/ariac_ws/
+catkin build
+source devel/setup.bash
+cd src/
+git clone https://github.com/viveksood97/group4_rwa1.git
+cd ~/catkin_ws/
+catkin build
+
+Steps to run--
+cd ~/ariac_ws/
+source devel/setup.bash
+roslaunch group4_rwa1 start_ariac.launch
+
+
