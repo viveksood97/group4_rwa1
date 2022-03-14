@@ -1,0 +1,19 @@
+<launch>
+  <arg name="environment" default="true"/>
+  <include file="$(find nist_gear)/launch/sample_environment.launch"
+           pass_all_args="true"
+           if="$(arg environment)"
+  />
+  <node name="agv"
+        pkg="group4_rwa1"
+        type="agv.py"
+        required="true"
+        output="screen"
+  />
+  <node name="sensors"
+        pkg="group4_rwa1"
+        type="sensors.py"
+        required="true"
+        output="screen"
+  />
+</launch>
